@@ -38,9 +38,5 @@ public class Paddle {
         return pos;
     }
 
-    public boolean checkBallCollision(Ball ball) {
-        // Simple paddle-ball collision logic (checking for intersection)
-        return ball.getBounds().intersects(this.getBounds());
-    }
 }
 

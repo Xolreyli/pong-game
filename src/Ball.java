@@ -1,5 +1,8 @@
 import static utils.Constants.*;
 
+import java.awt.*;
+import java.util.Random;
+
 public class Ball extends Sprite {
     private double vx;
     private double vy;

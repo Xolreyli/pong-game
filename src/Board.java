@@ -45,16 +45,16 @@ public class Board extends JPanel implements ActionListener, KeyListener {
             }
         }
 
-        if (ball.isColliding(leftPaddle)) {
+       // if (ball.isColliding(leftPaddle)) {
             //right
-        }
-        if (ball.isColliding(rightPaddle)){
+        //}
+        //if (ball.isColliding(rightPaddle)){
             //left
-        }
+        //}
 
-        if (ball.getpos().y <= 0 || ball.getPos().y >= ...) {
+        //if (ball.getpos().y <= 0 || ball.getPos().y >= ...) {
             // up
-        }
+        //}
 
         repaint();
     }

@@ -81,4 +81,4 @@ public class Player extends Sprite {
         return score;
     }
 }
-}
+
