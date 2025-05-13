@@ -10,18 +10,27 @@ public class Ball extends Sprite {
     }
 
     public void reset() {
-        // Move the ball to the center of the screen
-        // Look at how this is done to Wall in Board.java for inspiration
+        // Reset the ball's position to the center
+        pos.setLocation(BOARD_WIDTH / 2 - BALL_SIZE / 2, BOARD_HEIGHT / 2 - BALL_SIZE / 2);
 
-        // Reset the ball's velocity
-        // It should randomly move up left, up right, down left, or down right
-        // At first, make it move in one direction and add randomness later
+        // Assign random direction to the ball (up-left, up-right, down-left, down-right)
+        Random rand = new Random();
+        vx = rand.nextBoolean() ? 1 : -1; // Random horizontal direction (1 or -1)
+        vy = rand.nextBoolean() ? 1 : -1; // Random vertical direction (1 or -1)
+
+        // Set random speed
+        vx *= BALL_SPEED;
+        vy *= BALL_SPEED;
     }
 
     @Override
     public void tick() {
-        // Move the ball based on vx and vy
-        // Look at Player.java for inspiration
+        // Update the ball's position based on velocity
+        pos.translate((int)vx, (int)vy);
+
+        // Ball collision with top/bottom walls
+        if (pos.y <= 0 || pos.y + size.height >= BOARD_HEIGHT) {
+            vy *= -1; // Reverse vertical direction
+        }
     }
 }
-

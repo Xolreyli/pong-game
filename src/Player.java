@@ -7,6 +7,7 @@ import static utils.Constants.*;
 public class Player extends Sprite {
     private double dx;
     private double dy;
+    private int score = 0;  // Score for the player
 
     public Player() {
         super(PLAYER_IMAGE_PATH, 0, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
@@ -66,4 +67,18 @@ public class Player extends Sprite {
             }
         }
     }
+
+    // Score functions
+    public void incrementScore() {
+        score++;
+    }
+
+    public void resetScore() {
+        score = 0;
+    }
+
+    public int getScore() {
+        return score;
+    }
+}
 }
