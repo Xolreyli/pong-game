@@ -1,3 +1,7 @@
+package utils;
+
+import java.awt.event.KeyEvent;
+
 public class Constants {
 
     // Screen Dimensions
