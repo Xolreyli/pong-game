@@ -1,12 +1,19 @@
-import static utils.Constants.*;
+import java.awt.*;
+import javax.swing.ImageIcon;
 
-public class Wall extends Sprite {
-    public Wall(int x, int y) {
-        super(WALL_IMAGE_PATH, x, y, WALL_WIDTH, WALL_HEIGHT);
+public class Wall {
+    private int x, y, width, height;
+    private Image wallImage;
+
+    public Wall(int x, int y, int width, int height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        wallImage = new ImageIcon("wall.png").getImage();  // Load the wall image
     }
 
-    @Override
-    public void tick() {
-        // Unused
+    public void draw(Graphics g) {
+        g.drawImage(wallImage, x, y, width, height, null);  // Draw the wall image
     }
 }
