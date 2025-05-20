@@ -10,6 +10,9 @@ public class Main extends JPanel {
     private int currentRally = 0;
     private int highestRally = 0;
 
+    // Cooldown to avoid multiple rally increments per paddle collision
+    private boolean paddleCollisionCooldown = false;
+
     public Main() {
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.BLACK);
@@ -39,6 +42,7 @@ public class Main extends JPanel {
         });
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -49,6 +53,12 @@ public class Main extends JPanel {
         bottomWall.draw(g);
 
         scoreboard.draw(g);
+
+        // Optionally display rally info on screen
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
+        g.drawString("Current Rally: " + currentRally, 20, 60);
+        g.drawString("Highest Rally: " + highestRally, 20, 90);
     }
 
     public void update() {
@@ -60,20 +70,34 @@ public class Main extends JPanel {
     }
 
     private void checkCollisions() {
+        Rectangle ballRect = new Rectangle(ball.getX(), ball.getY(), Ball.SIZE, Ball.SIZE);
+        Rectangle topWallRect = new Rectangle(topWall.getX(), topWall.getY(), topWall.getWidth(), topWall.getHeight());
+        Rectangle bottomWallRect = new Rectangle(bottomWall.getX(), bottomWall.getY(), bottomWall.getWidth(), bottomWall.getHeight());
+
         // Ball-wall collision
-        if (ball.getY() <= 0 || ball.getY() >= getHeight() - Ball.SIZE) {
+        if (ballRect.intersects(topWallRect) || ballRect.intersects(bottomWallRect)) {
             ball.reverseVerticalDirection();
         }
 
         // Ball-paddle collision
+        boolean collidedWithPaddle = false;
         if (ball.collidesWith(player1.getPaddle())) {
             ball.reverseHorizontalDirection();
-            currentRally++;
-            ball.increaseSpeed();
+            collidedWithPaddle = true;
         } else if (ball.collidesWith(player2.getPaddle())) {
             ball.reverseHorizontalDirection();
+            collidedWithPaddle = true;
+        }
+
+        if (collidedWithPaddle && !paddleCollisionCooldown) {
             currentRally++;
             ball.increaseSpeed();
+            paddleCollisionCooldown = true;
+        }
+
+        // Reset cooldown when ball is no longer colliding with paddles
+        if (!ball.collidesWith(player1.getPaddle()) && !ball.collidesWith(player2.getPaddle())) {
+            paddleCollisionCooldown = false;
         }
 
         // Ball out of bounds (scoring)
@@ -85,7 +109,7 @@ public class Main extends JPanel {
             resetGame();
         }
 
-        // Update the highest rally
+        // Update highest rally
         if (currentRally > highestRally) {
             highestRally = currentRally;
         }
@@ -104,7 +128,7 @@ public class Main extends JPanel {
     }
 
     private void resetMatch() {
-        player1 = new Player(10, 250, 'w', 's');
+        player1 = new Player(10, 250, KeyEvent.VK_W, KeyEvent.VK_S);
         player2 = new Player(770, 250, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
         resetGame();
     }
