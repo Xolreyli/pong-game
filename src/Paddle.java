@@ -1,42 +1,60 @@
 import java.awt.*;
-import java.util.Set;
-
-import static utils.Constants.*;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 public class Paddle {
-    private final int upKey;
-    private final int downKey;
-    private double dy; // Vertical speed for the paddle
-    private Rectangle pos; // Paddle position
+    public static final int WIDTH = 20, HEIGHT = 100;
+    private int x, y;
+    private int upKey, downKey;
+    private boolean movingUp, movingDown;
+    private Image paddleImage;
 
-    public Paddle(int upKey, int downKey, int x) {
+    public Paddle(int x, int y, int upKey, int downKey) {
+        this.x = x;
+        this.y = y;
         this.upKey = upKey;
         this.downKey = downKey;
-        this.pos = new Rectangle(x, BOARD_HEIGHT / 2 - PADDLE_HEIGHT / 2, PADDLE_WIDTH, PADDLE_HEIGHT);
+        paddleImage = new ImageIcon("paddle.png").getImage();  // Load the paddle image
     }
 
-    public void handleActiveKeys(Set<Integer> activeKeys) {
-        dy = 0;
-
-        // Handle movement based on key input
-        if (activeKeys.contains(upKey)) {
-            dy -= PADDLE_SPEED;
+    public void update() {
+        if (movingUp && y > 0) {
+            y -= 5;
         }
-        if (activeKeys.contains(downKey)) {
-            dy += PADDLE_SPEED;
+        if (movingDown && y < 600 - HEIGHT) {
+            y += 5;
         }
     }
 
-    public void tick() {
-        pos.y += (int)dy;
-
-        // Prevent the paddle from moving out of bounds
-        pos.y = Math.clamp(pos.y, 0, BOARD_HEIGHT - PADDLE_HEIGHT);
+    public void draw(Graphics g) {
+        g.drawImage(paddleImage, x, y, WIDTH, HEIGHT, null);  // Draw the paddle image
     }
 
-    public Rectangle getBounds() {
-        return pos;
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == upKey) {
+            movingUp = true;
+        } else if (e.getKeyCode() == downKey) {
+            movingDown = true;
+        }
     }
 
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() == upKey) {
+            movingUp = false;
+        } else if (e.getKeyCode() == downKey) {
+            movingDown = false;
+        }
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void reset() {
+        y = 250; // Reset paddles to center position
+    }
 }
-
