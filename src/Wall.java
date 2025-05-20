@@ -16,4 +16,22 @@ public class Wall {
     public void draw(Graphics g) {
         g.drawImage(wallImage, x, y, width, height, null);
     }
+
+    // Getter methods for collision detection
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }
+
