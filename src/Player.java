@@ -1,84 +1,44 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.Set;
+import javax.swing.ImageIcon;
 
-import static utils.Constants.*;
+public class Player {
+    private int score;
+    private Paddle paddle;
+    private int upKey, downKey;
 
-public class Player extends Sprite {
-    private double dx;
-    private double dy;
-    private int score = 0;  // Score for the player
-
-    public Player() {
-        super(PLAYER_IMAGE_PATH, 0, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
+    public Player(int x, int paddleY, int upKey, int downKey) {
+        this.score = 0;
+        this.paddle = new Paddle(x, paddleY, upKey, downKey);
+        this.upKey = upKey;
+        this.downKey = downKey;
     }
 
-    @Override
-    public void tick() {
-        pos.translate((int)dx, (int)dy);
-
-        pos.x = Math.clamp(pos.x, 0, BOARD_WIDTH - PLAYER_WIDTH);
-        pos.y = Math.clamp(pos.y, 0, BOARD_HEIGHT - PLAYER_HEIGHT);
+    public void update() {
+        paddle.update();
     }
 
-    public void handleActiveKeys(Set<Integer> activeKeyCodes) {
-        dx = 0;
-        dy = 0;
-
-        if (activeKeyCodes.contains(KeyEvent.VK_UP)) {
-            dy -= PLAYER_SPEED;
-        }
-        if (activeKeyCodes.contains(KeyEvent.VK_RIGHT)) {
-            dx += PLAYER_SPEED;
-        }
-        if (activeKeyCodes.contains(KeyEvent.VK_DOWN)) {
-            dy += PLAYER_SPEED;
-        }
-        if (activeKeyCodes.contains(KeyEvent.VK_LEFT)) {
-            dx -= PLAYER_SPEED;
-        }
-
-        normalizeDeltas();
+    public void draw(Graphics g) {
+        paddle.draw(g);
     }
 
-    private void normalizeDeltas() {
-        if (dx != 0 && dy != 0) {
-            dx /= Math.sqrt(2);
-            dy /= Math.sqrt(2);
-        }
-    }
-
-    public void handleCollision(Sprite other) {
-        if(other.getClass().equals(Wall.class)) {
-            Point previousPos = new Point(pos.x - (int)dx, pos.y - (int)dy);
-
-            if(dx > 0 && previousPos.x + size.width <= other.getTopLeft().x) {
-                pos.x = other.getTopLeft().x - size.width;
-            }
-            else if(dx < 0 && previousPos.x >= other.getBottomRight().x) {
-                pos.x = other.getBottomRight().x;
-            }
-
-            if(dy > 0 && previousPos.y + size.height <= other.getTopLeft().y) {
-                pos.y = other.getTopLeft().y - size.height;
-            }
-            else if(dy < 0 && previousPos.y >= other.getBottomRight().y) {
-                pos.y = other.getBottomRight().y;
-            }
-        }
-    }
-
-    // Score functions
     public void incrementScore() {
         score++;
-    }
-
-    public void resetScore() {
-        score = 0;
     }
 
     public int getScore() {
         return score;
     }
-}
 
+    public Paddle getPaddle() {
+        return paddle;
+    }
+
+    public void keyPressed(KeyEvent e) {
+        paddle.keyPressed(e);
+    }
+
+    public void keyReleased(KeyEvent e) {
+        paddle.keyReleased(e);
+    }
+}
