@@ -9,7 +9,7 @@ public class Ball {
 
     public Ball() {
         reset();
-        ballImage = new ImageIcon("ball.png").getImage();  // Load the ball image
+        ballImage = new ImageIcon(getClass().getResource("/ball.png")).getImage();
     }
 
     public void reset() {
@@ -26,7 +26,7 @@ public class Ball {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(ballImage, x, y, SIZE, SIZE, null);  // Draw the ball image
+        g.drawImage(ballImage, x, y, SIZE, SIZE, null);
     }
 
     public void reverseVerticalDirection() {

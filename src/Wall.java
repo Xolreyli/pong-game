@@ -10,10 +10,10 @@ public class Wall {
         this.y = y;
         this.width = width;
         this.height = height;
-        wallImage = new ImageIcon("wall.png").getImage();  // Load the wall image
+        wallImage = new ImageIcon(getClass().getResource("/wall.png")).getImage();
     }
 
     public void draw(Graphics g) {
-        g.drawImage(wallImage, x, y, width, height, null);  // Draw the wall image
+        g.drawImage(wallImage, x, y, width, height, null);
     }
 }

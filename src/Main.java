@@ -16,12 +16,27 @@ public class Main extends JPanel {
         setFocusable(true);
 
         // Initialize players, ball, scoreboard, and walls
-        player1 = new Player(10, 250, 'w', 's');
+        player1 = new Player(10, 250, KeyEvent.VK_W, KeyEvent.VK_S);
         player2 = new Player(770, 250, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
         ball = new Ball();
         scoreboard = new Scoreboard(player1, player2);
-        topWall = new Wall(0, 0, 800, 20);  // Top wall
-        bottomWall = new Wall(0, 580, 800, 20);  // Bottom wall
+        topWall = new Wall(0, 0, 800, 20);
+        bottomWall = new Wall(0, 580, 800, 20);
+
+        // Add key listener to handle paddle controls
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                player1.keyPressed(e);
+                player2.keyPressed(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                player1.keyReleased(e);
+                player2.keyReleased(e);
+            }
+        });
     }
 
     public void paintComponent(Graphics g) {
