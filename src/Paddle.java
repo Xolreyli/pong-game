@@ -14,7 +14,7 @@ public class Paddle {
         this.y = y;
         this.upKey = upKey;
         this.downKey = downKey;
-        paddleImage = new ImageIcon("paddle.png").getImage();  // Load the paddle image
+        paddleImage = new ImageIcon(getClass().getResource("/paddle.png")).getImage();  // Load the paddle image
     }
 
     public void update() {
