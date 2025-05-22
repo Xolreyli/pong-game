@@ -57,8 +57,8 @@ public class Main extends JPanel {
         // Optionally display rally info on screen
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
-        g.drawString("Current Rally: " + currentRally, 20, 60);
-        g.drawString("Highest Rally: " + highestRally, 20, 90);
+        g.drawString("Current Rally: " + currentRally, 300, 30);
+        g.drawString("Highest Rally: " + highestRally, 300, 60);
     }
 
     public void update() {

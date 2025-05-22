@@ -22,8 +22,8 @@ public class Scoreboard {
         g.drawString("Player 2: " + player2.getScore(), 600, 30);
 
         // Draw rally info
-        g.drawString("Current Rally: " + currentRally, 300, 30);
-        g.drawString("Highest Rally: " + highestRally, 300, 60);
+        //g.drawString("Current Rally: " + currentRally, 300, 30);
+        //g.drawString("Highest Rally: " + highestRally, 300, 60);
     }
 }
 

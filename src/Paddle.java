@@ -19,10 +19,10 @@ public class Paddle {
 
     public void update() {
         if (movingUp && y > 0) {
-            y -= 5;
+            y -= 10;
         }
         if (movingDown && y < 600 - HEIGHT) {
-            y += 5;
+            y += 10;
         }
     }
 
