@@ -9,6 +9,8 @@ public class Main extends JPanel {
     private Wall topWall, bottomWall;
     private int currentRally = 0;
     private int highestRally = 0;
+    private boolean gameOver = false;
+    private String winnerMessage = "";
 
     // Cooldown to avoid multiple rally increments per paddle collision
     private boolean paddleCollisionCooldown = false;
@@ -59,14 +61,26 @@ public class Main extends JPanel {
         g.setFont(new Font("Arial", Font.PLAIN, 20));
         g.drawString("Current Rally: " + currentRally, 300, 30);
         g.drawString("Highest Rally: " + highestRally, 300, 60);
+
+        if (gameOver) {
+            g.setColor(Color.BLUE);
+            g.setFont(new Font("Arial", Font.BOLD, 50));
+
+            int x = 220;
+            int y = 280;
+
+            g.drawString(winnerMessage, x, y);
+        }
     }
 
     public void update() {
-        ball.update();
-        player1.update();
-        player2.update();
-        checkCollisions();
-        repaint();
+        if (!gameOver) {
+            ball.update();
+            player1.update();
+            player2.update();
+            checkCollisions();
+            repaint();
+        }
     }
 
     private void checkCollisions() {
@@ -103,10 +117,10 @@ public class Main extends JPanel {
         // Ball out of bounds (scoring)
         if (ball.getX() <= 0) {
             player2.incrementScore();
-            resetGame();
+            resetRound();
         } else if (ball.getX() >= getWidth()) {
             player1.incrementScore();
-            resetGame();
+            resetRound();
         }
 
         // Update highest rally
@@ -114,23 +128,47 @@ public class Main extends JPanel {
             highestRally = currentRally;
         }
 
-        // Check for match winner
-        if (player1.getScore() == 11 || player2.getScore() == 11) {
-            resetMatch();
+        // Check if a player reached winning score (11)
+        if (!gameOver) {
+            if (player1.getScore() >= 11) {
+                gameOver = true;
+                winnerMessage = "Player 1 Wins!";
+                ball.stop();  // You will add this method to Ball (see below)
+            } else if (player2.getScore() >= 11) {
+                gameOver = true;
+                winnerMessage = "Player 2 Wins!";
+                ball.stop();
+            }
         }
+
     }
 
-    private void resetGame() {
+    private void resetRound() {
         ball.reset();
         player1.getPaddle().reset();
         player2.getPaddle().reset();
         currentRally = 0;
+        paddleCollisionCooldown = false;
+    }
+
+    private void restartGame() {
+        player1.resetScore();
+        player2.resetScore();
+        ball.reset();
+        player1.getPaddle().reset();
+        player2.getPaddle().reset();
+        currentRally = 0;
+        highestRally = 0;
+        paddleCollisionCooldown = false;
+        gameOver = false;
+        winnerMessage = "";
+        repaint();
     }
 
     private void resetMatch() {
         player1 = new Player(10, 250, KeyEvent.VK_W, KeyEvent.VK_S);
         player2 = new Player(770, 250, KeyEvent.VK_UP, KeyEvent.VK_DOWN);
-        resetGame();
+        restartGame();
     }
 
     public static void main(String[] args) {
@@ -139,6 +177,7 @@ public class Main extends JPanel {
         frame.add(gamePanel);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.setVisible(true);
 
         // Game loop

@@ -41,4 +41,8 @@ public class Player {
     public void keyReleased(KeyEvent e) {
         paddle.keyReleased(e);
     }
+
+    public void resetScore() {
+        score = 0;
+    }
 }

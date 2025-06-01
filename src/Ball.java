@@ -46,6 +46,11 @@ public class Ball {
         return x + SIZE >= paddle.getX() && x <= paddle.getX() + Paddle.WIDTH && y + SIZE >= paddle.getY() && y <= paddle.getY() + Paddle.HEIGHT;
     }
 
+    public void stop() {
+        xSpeed = 0;
+        ySpeed = 0;
+    }
+
     public int getX() {
         return x;
     }
@@ -53,4 +58,13 @@ public class Ball {
     public int getY() {
         return y;
     }
+
+    public void setXSpeed(int speed) {
+        this.xSpeed = speed;
+    }
+
+    public void setYSpeed(int speed) {
+        this.ySpeed = speed;
+    }
+
 }
