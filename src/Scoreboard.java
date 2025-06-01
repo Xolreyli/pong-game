@@ -20,10 +20,5 @@ public class Scoreboard {
         g.setFont(new Font("Arial", Font.PLAIN, 24));
         g.drawString("Player 1: " + player1.getScore(), 20, 30);
         g.drawString("Player 2: " + player2.getScore(), 600, 30);
-
-        // Draw rally info
-        //g.drawString("Current Rally: " + currentRally, 300, 30);
-        //g.drawString("Highest Rally: " + highestRally, 300, 60);
     }
 }
-

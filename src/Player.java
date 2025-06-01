@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import javax.swing.ImageIcon;
 
 public class Player {
     private int score;

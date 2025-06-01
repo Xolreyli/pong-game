@@ -34,4 +34,3 @@ public class Wall {
         return height;
     }
 }
-
